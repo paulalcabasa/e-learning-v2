@@ -10,7 +10,8 @@ class IPCHomeController extends Controller
 
     public function __construct()
     { 
-        $this->host = $_SERVER['HTTP_HOST'];
+        //$this->host = $_SERVER['HTTP_HOST'];
+        $this->host = config('app.hostname');
     }
 
     public function ipc_home()

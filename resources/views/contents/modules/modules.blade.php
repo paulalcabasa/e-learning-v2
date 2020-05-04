@@ -27,7 +27,7 @@
 					<thead>
 						<tr>
 							<th width="25px">&nbsp;</th>
-							<th>Section</th>
+							<th>Category</th>
 							<th>Modules</th>
 							<th>Description</th>
 							<th>PDF</th>
@@ -56,12 +56,12 @@
 
 						<div class="form-group">
 							<label for="module">
-								Section 
+								Category 
 								<span class="text-danger">**</span>
 							</label>
-							<select class="form-control" name="section_id" id="section_id"> 
-							@foreach($sections as $section):
-							<option value="<?php echo $section->id;?>"><?php echo $section->section_name;?></option>
+							<select class="form-control" name="category_id" id="category_id"> 
+							@foreach($categories as $category):
+							<option value="<?php echo $category->id;?>"><?php echo $category->category_name;?></option>
 							@endforeach
 							</select>
 						</div>
@@ -134,7 +134,7 @@
 									<i class="fa fa-folder-open text-orange"></i>
 								</a>
 							</td>
-							<td>`+ (val.section_name !== null ? val.section_name : '') +`</td>
+							<td>`+ (val.category_name !== null ? val.category_name : '') +`</td>
 							<td>`+ counter + ". " + val.module +`</td>
 							<td>`+ description +`</td>
 							<td>`+ val.file_name +`</td>

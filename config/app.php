@@ -56,6 +56,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://ecommerce4/e-learning'),
+    'hostname' => env('APP_HOSTNAME', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------

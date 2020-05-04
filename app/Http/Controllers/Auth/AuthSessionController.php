@@ -13,11 +13,12 @@ class AuthSessionController extends Controller
 
     public function __construct()
     { 
-        $this->host = $_SERVER['HTTP_HOST'];
+        $this->host = config('app.hostname'); // $_SERVER['HTTP_HOST'];
     }
 
     public function login($employee_id, $employee_no, $full_name, $section)
     {
+      
         $credentials = [
             'employee_id' => base64_decode(urldecode($employee_id)),
             'employee_no' => base64_decode(urldecode($employee_no)),

@@ -61,7 +61,7 @@
 				@auth
 					@if (Auth::user()->user_type == 'trainor')
 						<v-toolbar-items>
-							<v-btn class="header_buttons font-weight-regular" v-bind:color="section_tab" href="{{ url('/trainor/section') }}" flat>Section</v-btn>
+							<v-btn class="header_buttons font-weight-regular" v-bind:color="category_tab" href="{{ url('/trainor/category') }}" flat>Category</v-btn>
 							<!-- <v-btn class="header_buttons font-weight-regular" v-bind:color="module_tab" href="{{ url('/trainor/modules') }}" flat>Modules</v-btn> -->
 							<v-btn class="header_buttons font-weight-regular" v-bind:color="trainee_tab" href="{{ url('/trainor/trainee_list') }}" flat>Trainees</v-btn>
 							<v-btn class="header_buttons font-weight-regular" v-bind:color="result_tab" href="{{ route('trainee_schedules') }}" flat>Exam Results</v-btn>
@@ -227,7 +227,7 @@
 						danger: false
 					},
 
-					section_tab: '',
+					category_tab: '',
 					module_tab: '',
 					trainee_tab: '',
 					result_tab: '',
