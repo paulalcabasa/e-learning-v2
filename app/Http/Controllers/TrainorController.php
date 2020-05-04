@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Trainor;
+use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Validator;
+use Auth;
 use App\Http\Requests\TrainorValidation;
+use App\Section;
 
 class TrainorController extends Controller
 {
@@ -129,5 +132,29 @@ class TrainorController extends Controller
             DB::rollBack();
             return response('Bad Request', 400);
         }
+    }
+
+    public function modules(Request $request){
+        $section_id = $request->section_id;
+        $trainor_id =  str_replace("trainor_", "", Auth::user()->app_user_id);
+        $section = Section::findOrFail($section_id);
+        $trainor = Trainor::findOrFail($trainor_id);
+       
+        $dealer_id = $trainor->dealer->dealer_id;
+
+       $modules = Module::with([
+            'module_details' => function($query) use($dealer_id) {
+                $query->where('dealer_id', $dealer_id);
+            }
+        ])
+        ->where('section_id', $section_id)
+        ->get(); 
+        
+        
+        $data = [
+            'trainor_modules' => $modules->toArray(),
+            'section' => $section
+        ];
+        return view('trainor.modules',$data);
     }
 }

@@ -43,7 +43,10 @@ Route::middleware(['auth'])->group(function () {        //--> Master middleware 
 		Route::view('/trainor/trainee_results/exam_schedule_id/{exam_schedule_id}', 'trainor.trainee_results');
 		Route::view('/trainor/trainee_schedules', 'trainor.trainee_schedules')->name('trainee_schedules');
 		Route::view('/trainor/trainee_list', 'trainor.trainee_list')->name('trainee_list');
-		Route::view('/trainor/modules', 'trainor.modules')->name('trainor');
+		Route::view('/trainor/section', 'trainor.sections')->name('sections');
+		
+		Route::get('/trainor/modules/{section_id}', 'TrainorController@modules');
+		Route::get('/section/get', 'SectionController@index');
 
 		/** PDF */
 		// Route::view('download-consent-form', 'PDFController@download');
