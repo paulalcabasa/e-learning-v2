@@ -86,6 +86,12 @@
 												View Tranining History
 											</a>
 										</li>
+										<li class="text-left">
+											<a v-on:click="viewCategories(item)">
+												<i class="ion ion-folder text-primary"></i>
+												Allowed categories
+											</a>
+										</li>
 									</ul>
 								</div>
 							</td>
@@ -112,6 +118,7 @@
 	</section>
 </div>
 @include('contents.trainors.trainor_modal')
+@include('contents.trainors.categories_modal')
 @include('contents.trainors.details_modal')
 @endsection
 
@@ -130,7 +137,8 @@
 			return {
 				trainors: [],
 				trainor_details: [],
-				trainor: {}
+				trainor: {},
+				allowed_categories : []
 			}
 		},
 		created() {
@@ -307,7 +315,38 @@
 					console.log(error.response);
 					swal('Ooops!', 'Something went wrong.', 'error', {timer:4000,button:false});
 				});
+			},
+			viewCategories: function(trainor) {
+				this.trainor = trainor;
+				
+				axios.get(`${this.base_url}/admin/trainor/categories/${trainor.trainor_id}`)
+				.then(({data}) => {
+					this.allowed_categories = data;
+				
+					$('#categories_modal').modal('show');
+				})
+				.catch((error) => {
+					console.log(error.response);
+					swal('Ooops!', 'Something went wrong.', 'error', {timer:4000,button:false});
+				});
+			},
+			saveTrainorCategories(){
+				axios.post(`${this.base_url}/admin/trainor/category/save`,{
+					trainorId : this.trainor.trainor_id,
+					trainorCategories : this.allowed_categories
+				})
+				.then(({data}) => {
+						toastr.success(data.message);
+					$('#categories_modal').modal('show');
+				})
+				.catch((error) => {
+					console.log(error.response);
+					swal('Ooops!', 'Something went wrong.', 'error', {timer:4000,button:false});
+				});
+				console.log(this.trainor);
+				console.log(this.allowed_categories);
 			}
+			
 		}
 	})
 

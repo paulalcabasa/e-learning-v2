@@ -74,34 +74,17 @@
         el: '#app',
         data() {
             return {
-                categories: [],
-                modules: [],
+                categories: {!! json_encode($trainorCategories)!!},
             }
         },
         created() {
-            this.fetchSections();
+            
           
             this.category_tab = 'red';
         },
         methods: {
-            fetchSections: function() {
-                axios.get(`${base_url}/category/get`)
-				.then(({data}) => {
-                    this.categories = data;
-				})
-				.catch((err) => {
-					console.log(err.response.data);
-				});
-            },
-            fetchModules: function() {
-                axios.get(`${base_url}/admin/get_modules`)
-				.then(({data}) => {
-                    this.modules = data;
-				})
-				.catch((err) => {
-					console.log(err.response);
-				});
-            },
+        
+           
           
         }
     })
