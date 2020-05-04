@@ -10,7 +10,7 @@ let mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-mix.setResourceRoot('/e-learning-v2/public/');
+mix.setResourceRoot('/e-learning/public/');
 mix.js('resources/assets/js/app.js', 'public/js').sourceMaps().version();
 
 /**
@@ -20,6 +20,6 @@ mix.js('resources/assets/js/app.js', 'public/js').sourceMaps().version();
  */
 
 mix.browserSync({
-    proxy: 'localhost/e-learning-v2'
+    proxy: 'localhost/e-learning'
 });
 mix.disableNotifications();

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Validator;
 use Auth;
 use App\Http\Requests\TrainorValidation;
-use App\Section;
+use App\Category;
 
 class TrainorController extends Controller
 {
@@ -135,25 +135,27 @@ class TrainorController extends Controller
     }
 
     public function modules(Request $request){
-        $section_id = $request->section_id;
+        $category_id = $request->category_id;
         $trainor_id =  str_replace("trainor_", "", Auth::user()->app_user_id);
-        $section = Section::findOrFail($section_id);
+   
+        $category = Category::findOrFail($category_id);
+       
         $trainor = Trainor::findOrFail($trainor_id);
        
         $dealer_id = $trainor->dealer->dealer_id;
 
-       $modules = Module::with([
+        $modules = Module::with([
             'module_details' => function($query) use($dealer_id) {
                 $query->where('dealer_id', $dealer_id);
             }
         ])
-        ->where('section_id', $section_id)
+        ->where('category_id', $category_id)
         ->get(); 
         
         
         $data = [
             'trainor_modules' => $modules->toArray(),
-            'section' => $section
+            'category' => $category
         ];
         return view('trainor.modules',$data);
     }

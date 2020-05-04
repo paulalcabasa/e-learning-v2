@@ -21,8 +21,9 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
+     
         $emailExists = DB::table('users')->where(['email' => $credentials['email']])->exists();
+       
         if ($emailExists) {
             $currentlyActive = DB::table('users')->where([
                 'email'     => $credentials['email'],

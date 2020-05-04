@@ -3,7 +3,7 @@
 @push('styles')
 	<style>
 		#__image-container {
-			background-image: url('/e-learning-v2/public/images/e-learning2.jpg');
+			background-image: url('/e-learning/public/images/e-learning2.jpg');
 			background-repeat: no-repeat;
   			background-position: 0 0;
     		background-size: cover;

@@ -19,8 +19,8 @@
                 <v-container class="pb-0" fluid>
                     <v-layout>
                         <v-flex xs12 align-end flexbox>
-                            <span class="headline font-weight-regular">
-                                @{{ section.section_name }}
+                            <span class="headline font-weight-regular white--text">
+                                @{{ category.category_name }}
                             </span>
                         </v-flex>
                     </v-layout>
@@ -100,7 +100,7 @@
             return {
                 trainor_modules: {!! json_encode($trainor_modules) !!},
                 modules: [],
-                section : {!! json_encode($section) !!}
+                category : {!! json_encode($category) !!}
             }
         },
         created() {
