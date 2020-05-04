@@ -17,16 +17,22 @@ class ModuleController extends Controller
      */
     public function index()
     {
-        
-        return view('contents.modules.modules');
+        $sections = DB::select('SELECT id, section_name FROM sections');
+
+        $data = [
+            'sections' => $sections
+        ];
+        return view('contents.modules.modules',$data);
     }
 
     public function get() 
     {
         $data = DB::select('
             SELECT m.*,
+                    st.section_name,
             (SELECT COUNT(sm.module_id) FROM sub_modules sm WHERE sm.module_id = m.module_id) as count_total
-            FROM modules m
+            FROM modules m LEFT JOIN sections st
+            ON st.id = m.section_id
         ');
 
         return $data;
@@ -43,7 +49,8 @@ class ModuleController extends Controller
         $data = new Module;
         $data->module = $request->module;
         $data->description = $request->description;
-
+        $data->section_id = $request->section_id;
+        
         if ($request->hasFile('file_name')) {
             $filename = $request->file('file_name')->getClientOriginalName();
             $request->file_name->move(public_path('storage'), $filename);

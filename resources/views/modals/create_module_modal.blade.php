@@ -11,6 +11,8 @@
                     @csrf
                     <input type="hidden" name="module_id">
 
+                 
+
                     <div class="form-group">
                         <label for="module">
                             Module Name 
@@ -18,6 +20,8 @@
                         </label>
                         <input type="text" class="form-control" name="module" id="module" required autofocus>
                     </div>
+
+                    
 
                     <div class="form-group">
                         <label for="module">Description</label>

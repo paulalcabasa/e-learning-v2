@@ -19,8 +19,8 @@
                 <v-container class="pb-0" fluid>
                     <v-layout>
                         <v-flex xs12 align-end flexbox>
-                            <span class="headline font-weight-regular white--text">
-                                Modules
+                            <span class="headline font-weight-regular">
+                                @{{ section.section_name }}
                             </span>
                         </v-flex>
                     </v-layout>
@@ -98,13 +98,14 @@
         el: '#app',
         data() {
             return {
-                trainor_modules: [],
+                trainor_modules: {!! json_encode($trainor_modules) !!},
                 modules: [],
+                section : {!! json_encode($section) !!}
             }
         },
         created() {
-            this.fetchTrainorModules();
-            this.fetchModules();
+          //  this.fetchTrainorModules();
+           // this.fetchModules();
             this.module_tab = 'red';
         },
         methods: {
