@@ -11,6 +11,6 @@ class SessionSampleController extends Controller
         $request->session()->flush();
        
         return redirect()
-            ->away(config('app.hostname') . '/ipc_central/php_processors/proc_logout.php');
+            ->away(config('app.e5_hostname') . '/ipc_central/php_processors/proc_logout.php');
     }
 }
