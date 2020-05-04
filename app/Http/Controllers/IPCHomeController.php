@@ -16,9 +16,11 @@ class IPCHomeController extends Controller
 
     public function ipc_home()
     {
-        if ($this->host == 'idh.isuzuphil.com') 
+        return redirect()->away($this->host . '/ipc_central/main_home.php');
+       /*  if ($this->host == 'idh.isuzuphil.com') 
             return redirect()->away('http://portal.isuzuphil.com/ipc_central/main_home.php');
         else if ($this->host == 'ecommerce4')
-            return redirect()->away('http://ecommerce5/ipc_central/main_home.php');
+            return redirect()->away('http://ecommerce5/ipc_central/main_home.php'); */
+            
     }
 }
