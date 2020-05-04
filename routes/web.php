@@ -45,7 +45,7 @@ Route::middleware(['auth'])->group(function () {        //--> Master middleware 
 		Route::view('/trainor/trainee_list', 'trainor.trainee_list')->name('trainee_list');
 		
 		
-		Route::view('/trainor/category', 'trainor.categories')->name('trainor');
+		Route::get('/trainor/category', 'CategoryController@trainorCategories')->name('trainor');
 		Route::get('/trainor/modules/{category_id}', 'TrainorController@modules');
 		Route::get('/category/get', 'CategoryController@index');
 
@@ -158,6 +158,8 @@ Route::middleware(['check_session'])->group(function () { //--> For Administrato
 	Route::post('/admin/trainors/post', 'TrainorController@store');
 	Route::put('/admin/trainors/put/{trainor_id}', 'TrainorController@update');
 	Route::delete('/admin/trainors/delete/{trainor_id}', 'TrainorController@destroy');
+	Route::get('/admin/trainor/categories/{trainor_id}', 'TrainorCategoryController@get');
+	Route::post('/admin/trainor/category/save', 'TrainorCategoryController@store');
 
 	// Trainees
 	Route::get('/admin/trainees/get', 'TraineeController@index');

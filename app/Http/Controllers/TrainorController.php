@@ -11,6 +11,7 @@ use Validator;
 use Auth;
 use App\Http\Requests\TrainorValidation;
 use App\Category;
+use App\Models\TrainorCategory;
 
 class TrainorController extends Controller
 {
@@ -141,7 +142,16 @@ class TrainorController extends Controller
         $category = Category::findOrFail($category_id);
        
         $trainor = Trainor::findOrFail($trainor_id);
-       
+        $trainorCategory = new TrainorCategory;
+
+        $access = $trainorCategory->validateAccess([
+            'category_id' => $category_id,
+            'trainor_id' => $trainor_id
+        ]);
+        
+        if(count($access) <= 0){
+            abort(404);
+        }
         $dealer_id = $trainor->dealer->dealer_id;
 
         $modules = Module::with([
@@ -159,4 +169,6 @@ class TrainorController extends Controller
         ];
         return view('trainor.modules',$data);
     }
+
+    
 }
