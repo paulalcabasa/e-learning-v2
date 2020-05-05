@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ModuleValidation;
 use App\Http\Requests\UploadValidation;
 use App\Category;
-
+use Auth;
 class ModuleController extends Controller
 {
     /**
@@ -28,14 +28,8 @@ class ModuleController extends Controller
 
     public function get() 
     {
-        $data = DB::select('
-            SELECT m.*,
-                    ct.category_name,
-            (SELECT COUNT(sm.module_id) FROM sub_modules sm WHERE sm.module_id = m.module_id) as count_total
-            FROM modules m LEFT JOIN categories ct
-            ON ct.id = m.category_id
-        ');
-
+        $module = new Module;
+        $data = $module->getModules(session('employee_id'));
         return $data;
     }
 
@@ -176,6 +170,7 @@ class ModuleController extends Controller
 
     public function modules()
     {
+       
         return response()->json(['modules' => Module::all()]);
     }
 }
