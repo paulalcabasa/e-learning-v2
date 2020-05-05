@@ -65,6 +65,11 @@
 					</span>
 				</a>
 				<ul class="treeview-menu">
+					<li id="categories_tab">
+						<a href="{{ url('/admin/categories') }}" style="margin-left: 20px;">
+							<span>Categories</span>
+						</a>
+					</li>
 					<li id="module_tab">
 						<a href="{{ url('/admin/modules') }}" style="margin-left: 20px;">
 							<span>Modules</span>

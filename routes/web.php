@@ -257,6 +257,16 @@ Route::middleware(['check_session'])->group(function () { //--> For Administrato
 
 	Route::view('/admin/archives/archive_trainors', 'contents.archives.archive_trainors');
 	Route::view('admin/trainee_details/{trainee_id}', 'contents.trainees.details');
+
+
+	/*  Categories */
+	Route::view('/admin/categories', 'contents.category.categories');
+	Route::post('/admin/category/add', 'CategoryController@store');
+	Route::post('/admin/category/update', 'CategoryController@update');
+	Route::get('/admin/category/get', 'CategoryController@index');
+
+	Route::get('/admin/category/admin/get/{category_id}', 'CategoryAdminController@index');
+	Route::post('/admin/category/admin/save', 'CategoryAdminController@store');
 });
 
 Route::get('/flush_session', 'SessionSampleController@flush_session');
