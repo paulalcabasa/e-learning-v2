@@ -11,7 +11,6 @@ use App\Models\TrainorCategory;
 class CategoryController extends Controller
 {
     public function index(){
-      
         $categories = Category::all();
         return response()->json($categories,200);
     }
@@ -25,5 +24,25 @@ class CategoryController extends Controller
         ];
 
         return view('trainor.categories', $data);
+    }
+
+    public function store(Request $request){
+        $category = new Category;
+      
+        $category->category_name = $request->category['category_name'];
+        $category->save();
+        return [
+            'message' => 'Category has been created'
+        ];
+    }
+
+    public function update(Request $request){
+        $category = Category::find($request->category['category_id']);
+        $category->category_name = $request->category['category_name'];
+        $category->status = $request->category['status'];
+        $category->save();
+        return [
+            'message' => 'Category has been updated.'
+        ];
     }
 }
