@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\ModuleValidation;
 use App\Http\Requests\UploadValidation;
+use App\Category;
 
 class ModuleController extends Controller
 {
@@ -72,7 +73,13 @@ class ModuleController extends Controller
     public function show($id)
     {
         $module = Module::findOrFail($id);
-        return view('contents.modules.module', $module);
+     
+        $categories = Category::where('status','active')->get();
+        $data = [
+            'module' => $module,
+            'categories' => $categories
+        ];
+        return view('contents.modules.module', $data);
     }
 
     public function get_module($id)
@@ -92,7 +99,7 @@ class ModuleController extends Controller
         $module = Module::findOrFail($id);
         $module->module = $request->module;
         $module->description = $request->description;
-        
+        $module->category_id = $request->category_id;
         if ($request->hasFile('file_name')) {
             $filename = $request->file('file_name')->getClientOriginalName();
             $request->file_name->move(public_path('storage'), $filename); // move file to /public/storage

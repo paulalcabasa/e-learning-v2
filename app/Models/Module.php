@@ -28,4 +28,6 @@ class Module extends Model
             'module_schedule_id'    // Local key on module_schedules
         );
     }
+    
+   
 }

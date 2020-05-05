@@ -25,6 +25,7 @@ class ModuleValidation extends FormRequest
     {
         return [
             'module'      => 'required',
+            'category_id' => 'required',
             'description' => 'max:48',
             'file_name'   => 'mimes:pdf'
         ];
