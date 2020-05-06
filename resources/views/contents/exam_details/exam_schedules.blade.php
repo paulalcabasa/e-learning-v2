@@ -61,7 +61,8 @@
                             
                             <template slot="items" slot-scope="props">
                                 <tr>
-                                    <td><strong>@{{ props.item.module.module }}</strong></td>
+                                    <td><strong>@{{ props.item.category_name }}</strong></td>
+                                    <td><strong>@{{ props.item.module }}</strong></td>
                                     <td>@{{ props.item.created_by }}</td>
                                     <td>@{{ props.item.created_at }}</td>
                                     <td>
@@ -257,6 +258,7 @@
 				loading: true,
                 search: '',
 				headers: [
+					{ text: 'Category', value: 'category_name' },
 					{ text: 'Module', value: 'module' },
 					{ text: 'Created By', value: 'created_by' },
 					{ text: 'Created At', value: 'created_at' },

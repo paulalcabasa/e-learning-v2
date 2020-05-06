@@ -170,7 +170,9 @@ class ModuleController extends Controller
 
     public function modules()
     {
-       
-        return response()->json(['modules' => Module::all()]);
+        $module = new Module;
+        $data = $module->getModules(session('employee_id'));
+
+        return response()->json(['modules' => $data]);
     }
 }

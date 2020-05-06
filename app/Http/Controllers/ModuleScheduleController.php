@@ -18,7 +18,7 @@ class ModuleScheduleController extends Controller
 
     public function index()
     {
-        $module_schedules = DB::table('module_schedules as ms')
+     /*    $module_schedules = DB::table('module_schedules as ms')
             ->select(
                 'ms.*', // module_schedule
                 'm.module'
@@ -26,7 +26,10 @@ class ModuleScheduleController extends Controller
             ->leftJoin('modules as m', 'm.module_id', '=', 'ms.module_id')
             ->orderBy('ms.created_at', 'DESC')
             ->get();
-        
+         */
+        $module_schedule = new ModuleSchedule;
+
+        $module_schedules = $module_schedule->getModuleSchedule(session('employee_id'));
         return response()->json(['module_schedules' => $module_schedules]);
     }
 

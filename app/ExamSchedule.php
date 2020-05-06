@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use DB;
 class ExamSchedule extends Model
 {
     protected $fillable = [
@@ -52,5 +52,32 @@ class ExamSchedule extends Model
     public function trainee_exams()
     {
         return $this->hasMany('App\TraineeExam', 'exam_schedule_id', 'exam_schedule_id');
+    }
+
+    public function getSchedule($employee_id){
+        /* /* $exam_schedules = ExamSchedule::
+			with('exam_details')
+			->with('module')
+			->with('question_details')
+			->get(); */
+		
+        $sql = "SELECT es.exam_schedule_id,
+                        es.created_by,
+                        date_format(es.created_at,'%M %d, %Y %h:%i %p') created_at,
+                        es.status,
+                        md.module,
+                        ct.category_name
+                FROM exam_schedules es
+                    LEFT JOIN modules md
+                        ON md.module_id = es.module_id
+                    LEFT JOIN exam_details ed
+                        ON ed.exam_schedule_id = es.exam_schedule_id
+                    LEFT JOIN categories ct
+                        ON ct.id = md.category_id
+                    LEFT JOIN category_administrators ca
+                        ON ca.category_id = ct.id
+                WHERE ca.employee_id = :employee_id";
+        $query = DB::select($sql, ['employee_id' => $employee_id]);
+        return $query;
     }
 }

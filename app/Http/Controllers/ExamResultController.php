@@ -13,6 +13,9 @@ class ExamResultController extends Controller
 {
 	public function exam_schedules()
 	{
+		
+		/* $examSched = new ExamSchedule;
+		$data = $examSched->getSchedule(sesion('employee_id')); */
 		$query = DB::table('exam_schedules as es')
 			->select(
 				'es.exam_schedule_id', 
@@ -29,7 +32,7 @@ class ExamResultController extends Controller
 				'es.exam_schedule_id'
 			])
 			->get();
-
+			
 		return $query->toArray();
 	}
 
