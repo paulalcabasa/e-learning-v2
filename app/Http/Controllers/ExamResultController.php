@@ -13,27 +13,9 @@ class ExamResultController extends Controller
 {
 	public function exam_schedules()
 	{
-		
-		/* $examSched = new ExamSchedule;
-		$data = $examSched->getSchedule(sesion('employee_id')); */
-		$query = DB::table('exam_schedules as es')
-			->select(
-				'es.exam_schedule_id', 
-				'es.created_by', 
-				'es.created_at', 
-				'es.timer', 
-				'es.status', 
-				'm.module'
-			)
-			->leftJoin('modules as m', 'm.module_id', '=', 'es.module_id')
-			->leftJoin('exam_details as ed', 'ed.exam_schedule_id', '=', 'es.exam_schedule_id')
-			->where('ed.is_opened', 1)
-			->groupBy([
-				'es.exam_schedule_id'
-			])
-			->get();
-			
-		return $query->toArray();
+		$examSched = new ExamSchedule;
+		$data = $examSched->getResults(session('employee_id')); 	
+		return $data;
 	}
 
 	public function dealers($exam_schedule_id)
