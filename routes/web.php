@@ -79,7 +79,7 @@ Route::middleware(['auth'])->group(function () {        //--> Master middleware 
 	Route::post('/user/logout', 'ThirdPartyAuthController@logout');
 
 	/** Authenticated Views */
-	Route::view('/pdf_viewer/{file_name}/{module_detail_id}', 'pdf_viewer');
+	Route::view('/pdf_viewer/{file_name}/{module_detail_id}/{category_id}', 'pdf_viewer');
 });
 
 // Routes for middlewares here .. soon to modify
