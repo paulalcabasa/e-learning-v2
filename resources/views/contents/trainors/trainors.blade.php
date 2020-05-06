@@ -88,7 +88,7 @@
 										</li>
 										<li class="text-left">
 											<a v-on:click="viewCategories(item)">
-												<i class="ion ion-folder text-primary"></i>
+												<i class="fa fa-cog text-primary"></i>
 												Allowed categories
 											</a>
 										</li>
