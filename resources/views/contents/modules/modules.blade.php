@@ -7,6 +7,8 @@
 
 @section('content')
 <div v-cloak>
+
+	
 	<section class="content-header">
 		<h1>
 			Modules

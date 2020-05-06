@@ -16,7 +16,7 @@ class SubModuleController extends Controller
 {
     public function modules($params = '')
     {
-        $modules = DB::table('modules')
+        /* $modules = DB::table('modules')
             ->select(
                 'module_id',
                 'module',
@@ -31,8 +31,9 @@ class SubModuleController extends Controller
             ->orWhere('description', 'like', '%' . $params . '%')
             ->orWhere('file_name', 'like', '%' . $params . '%')
             ->oldest('created_at')
-            ->get();
-
+            ->get(); */
+        $module = new Module;
+        $modules = $module->getModules(session('employee_id'));
         return $modules;
     } 
 

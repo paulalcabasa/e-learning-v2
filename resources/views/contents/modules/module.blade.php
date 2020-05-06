@@ -8,7 +8,7 @@
 @section('content')
 <div v-cloak>
     <section class="content-header">
-        <a onclick="module.update_module({{ $module_id }})"
+        <a onclick="module.update_module({{ $module['module_id'] }})"
         class="btn btn-sm btn-danger pull-right">
             <i class="fas fa-pen"></i>
             EDIT    
@@ -37,16 +37,28 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"></h4>
+                    <h4 class="modal-title">Module Information</h4>
                 </div>
                 <div class="modal-body">
                     <form id="update_module" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="_method" value="PUT">
                         @csrf
-                        <input type="hidden" name="module_id" id="module_id" value="{{ $module_id }}">
-                        <input type="hidden" name="old_file_name" value="{{ $file_name }}">
+                        <input type="hidden" name="module_id" id="module_id" value="{{ $module['module_id'] }}">
+                        <input type="hidden" name="old_file_name" value="{{ $module['file_name'] }}">
 
-                   
+                        <div class="form-group">
+							<label for="module">
+								Category 
+								<span class="text-danger">**</span>
+							</label>
+							<select class="form-control" name="category_id" id="category_id"> 
+							@foreach($categories as $category):
+							    <option 
+                                    value="<?php echo $category->id;?>"
+                                    <?php echo ($category->id == $module['category_id']) ? 'selected' : '';?>><?php echo $category->category_name;?></option>
+							@endforeach
+							</select>
+						</div>
 
                         <div class="form-group">
                             <label for="module">
@@ -70,7 +82,7 @@
     
                             @include('validation.client_side_error', ['field_id' => 'file_name'])
                             <br>
-                            Previous file : <span class="text-danger">{{ $file_name }}</span>
+                            Previous file : <span class="text-danger">{{ $module['file_name'] }}</span>
                         </div>
                         
                         <div class="clearfix">
@@ -98,8 +110,8 @@
                         <input type="hidden" name="_method" value="PUT">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
     
-                        <input type="hidden" name="old_file_name" value="{{ $file_name }}">
-                        <input type="hidden" name="module_id" id="module_id" value="{{ $module_id }}">
+                        <input type="hidden" name="old_file_name" value="{{ $module['file_name'] }}">
+                        <input type="hidden" name="module_id" id="module_id" value="{{ $module['module_id'] }}">
                         <div class="form-group">
                             <label for="file_name">PDF File</label>
                             <input type="file" name="file_name" id="file_name" required>
@@ -198,7 +210,7 @@
                 $('#upload_pdf_modal').modal('show');
             }
         };
-        module.display_pdf({{ $module_id }});
+        module.display_pdf({{ $module['module_id'] }});
     });
 
     $(document).on('submit', '#update_module', function(event) {
@@ -214,7 +226,7 @@
 		})
 		.done(function(res) {
 			crud.reset_form('update_module');
-            module.display_pdf({{ $module_id }});
+            module.display_pdf({{ $module['module_id'] }});
             toastr.success('Successfully uploaded.', 'Success!');
             crud.close_modal('update_module_modal');
 		})
@@ -240,7 +252,7 @@
 		})
 		.done(function(res) {
 			crud.reset_form('upload_pdf');
-            module.display_pdf({{ $module_id }});
+            module.display_pdf({{ $module['module_id'] }});
             toastr.success('Successfully uploaded.', 'Success!');
             crud.close_modal('upload_pdf');
 		})

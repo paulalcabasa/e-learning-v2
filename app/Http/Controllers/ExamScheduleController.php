@@ -18,13 +18,9 @@ class ExamScheduleController extends Controller
 	
 	public function index()
 	{
-		$exam_schedules = ExamSchedule::
-			with('exam_details')
-			->with('module')
-			->with('question_details')
-			->get();
-
-		return response()->json(['exam_schedules' => $exam_schedules->toArray()]);
+		$exam_schedule = new ExamSchedule;
+		$exam_schedules = $exam_schedule->getSchedule(session('employee_id'));
+		return response()->json(['exam_schedules' => $exam_schedules]);
 	}
 
 	public function show($exam_schedule_id)
