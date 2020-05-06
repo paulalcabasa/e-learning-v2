@@ -47,7 +47,7 @@
 
     <v-btn
         fab
-        href="{{ Auth::user()->user_type == 'trainor' ? url('/trainor/modules') : url('/trainee/modules') }}"
+        href="{{ url('/trainor/modules/' . Request::segment(4)) }}"
         fixed
         dark
         bottom

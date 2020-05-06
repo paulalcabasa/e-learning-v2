@@ -57,7 +57,7 @@
                                                     <div v-if="module_detail.status == 'on_progress'">
                                                         <v-btn 
                                                             v-if="module_detail.is_enabled" 
-                                                            v-on:click="viewPDF(module_detail.module_detail_id, data.file_name)" 
+                                                            v-on:click="viewPDF(module_detail.module_detail_id, data.file_name, data.category_id)" 
                                                             block 
                                                             flat 
                                                             color="green">
@@ -127,11 +127,11 @@
 					console.log(err.response);
 				});
             },
-            viewPDF: function(module_detail_id, file) {
+            viewPDF: function(module_detail_id, file, category_id) {
                 axios.put(`${base_url}/trainor/trigger_module/${module_detail_id}/${user_id}`)
                 .then(({data}) => {
                     if (data) {
-                        window.location = `${base_url}/pdf_viewer/${file}/${module_detail_id}`;
+                        window.location = `${base_url}/pdf_viewer/${file}/${module_detail_id}/${category_id}`;
                     }
                 })
                 .catch((err) => {

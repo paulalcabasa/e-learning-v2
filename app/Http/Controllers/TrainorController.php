@@ -165,7 +165,8 @@ class TrainorController extends Controller
         
         $data = [
             'trainor_modules' => $modules->toArray(),
-            'category' => $category
+            'category' => $category,
+            'category_id' => $category_id
         ];
         return view('trainor.modules',$data);
     }
