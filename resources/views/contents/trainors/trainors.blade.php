@@ -6,6 +6,10 @@
 		.drop_down_menu li a:hover {
 			color: #337AB7;
 		}
+
+		.dataTables_scrollBody {
+			min-height : 200px;
+		}
 	</style>
 	<link rel="stylesheet" href="{{ url('public/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
 @endpush 
@@ -26,7 +30,7 @@
 				</v-btn>
 			</div>
 			<div class="box-body">
-				<table id="datatable" class="no-wrap table table-responsive table-hover table-bordered" style="width: 100%">
+				<table id="datatable" class="no-wrap table table-responsive table-hover table-bordered" style="width: 100%; min-height:500px;">
 					<thead>
 						<tr>
 							<th class="text-center" width="25px">&nbsp;</th>
@@ -130,7 +134,6 @@
 	$('#trainor_tab').addClass('active bg-red');
 	$('#dealer_treeview').addClass('active');
 	const base_url = "{{ url('/') }}";
-
 	var vm = new Vue({
 		el: '#app',
 		data() {

@@ -6,6 +6,10 @@
 		.drop_down_menu li a:hover {
 			color: #337AB7;
 		}
+
+		.dataTables_scrollBody {
+			min-height : 200px;
+		}
 	</style>
 @endpush
 
