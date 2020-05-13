@@ -10,16 +10,23 @@ class CategoryAdminController extends Controller
 {
     public function index(Request $request){
         $categoryAdmin = new CategoryAdmin;
-        $admin = $categoryAdmin->getAllByCategory($request->category_id);
-
+        $admin = $categoryAdmin->getAdministrators();
+        $category_id = $request->category_id;
+        
         $admins = [];
         foreach($admin as $row){
+
+            $adminFlag = $categoryAdmin->getByUser($row->employee_id, $category_id);
+            
+       
+
             array_push($admins,[
                 'admin_name' => $row->admin_name,
                 'employee_id' => $row->employee_id,
-                'category_id' => $row->category_id,
-                'orig_admin_flag' => $row->admin_flag,
-                'admin_flag' => ($row->admin_flag === 1 ? true : false)
+                'category_id' => $category_id,
+               // 'adminFlag' => $adminFlag,
+                'orig_admin_flag' => (!empty($adminFlag) ? true : false),
+                'admin_flag' => (!empty($adminFlag) ? true : false)
             ]);
         }
         return $admins;

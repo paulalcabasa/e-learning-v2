@@ -225,9 +225,7 @@
                 }).catch(err => {
                     toastr.error(err, 'Error!');
                 });
-                this.category.category_id = row.id;
-                this.category.category_name = row.category_name;
-                this.category.status = row.status;
+                
                 
             }
         }
