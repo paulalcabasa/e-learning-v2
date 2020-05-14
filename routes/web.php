@@ -267,6 +267,10 @@ Route::middleware(['check_session'])->group(function () { //--> For Administrato
 
 	Route::get('/admin/category/admin/get/{category_id}', 'CategoryAdminController@index');
 	Route::post('/admin/category/admin/save', 'CategoryAdminController@store');
+
+	
+	Route::post('/admin/classification/save', 'ClassificationController@store');
+	Route::get('/admin/classification/get/{category_id}', 'ClassificationController@show');
 });
 
 Route::get('/flush_session', 'SessionSampleController@flush_session');

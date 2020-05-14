@@ -41,6 +41,9 @@
 								</div>
                             </td>
                             <td>
+                                <button @click="classificationsModal(row)" class="btn btn-xs btn-warning">
+                                    <i class="fas fa-cog"></i>
+                                </button>
                                 <button @click="adminModal(row)" class="btn btn-xs btn-primary">
                                     <i class="fas fa-users"></i>
                                 </button>
@@ -78,6 +81,32 @@
 							<input type="text" class="form-control" v-model="category.category_name" autofocus>
 						</div>
 
+                    
+                        <!-- <div class="form-group">
+							<label for="module">
+								Classification
+								<span class="text-danger">**</span>
+							</label>
+                            
+							<select id="cars" class="form-control">
+                                <optgroup label="Service">
+                                    <option value="volvo">Service Technician</option>
+                                    <option value="saab">Service Advisor</option>
+                                </optgroup>
+                                <optgroup label="Sales">
+                                    <option value="mercedes">Sales Executive LCV</option>
+                                    <option value="audi">Sales Executive Fleet</option>
+                                </optgroup>
+                                <optgroup label="Parts ">
+                                    <option value="mercedes">Parts Staff</option>
+                                    <option value="audi">Parts Sales</option>
+                                    <option value="audi">Parts Admin</option>
+                                </optgroup>
+                            </select>
+						</div> -->
+
+                   
+                
                         <div class="form-group" v-show="action == 'edit'">
 							<label for="module">
 								Status
@@ -127,6 +156,50 @@
 			</div>
 		</div>
 	</div>
+
+    <div class="modal"  id="classification_modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">@{{ category.category_name }} Classifications</h4>
+				</div>
+				<div class="modal-body">
+
+                 <!-- <div class="input-group input-group-sm">
+                    <input type="text" class="form-control">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info btn-flat">Add</button>
+                    </span>
+                </div> -->
+
+                    <table class="table table-responsive" id="classifications">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in classifications" v-show="item.deleted_flag == 'N'" >
+                                <td class="text-center">
+                                    <input type="text" class="form-control" v-model="item.classification" />
+                                </td>
+                                <td class="text-center">
+                                    <a href="#" @click.prevent="deleteClassification(item,index)"><i class="fa fa-trash text-danger"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+				</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @click="addClassification">Add</button>
+                    <button type="button" class="btn btn-success" @click="saveClassifications">Save</button>
+                </div>
+			</div>
+		</div>
+	</div>
+
 </div>
 @endsection
 
@@ -152,7 +225,8 @@
                 },
                 action : '',
                 apiUrl : '',
-                categoryAdmins : []
+                categoryAdmins : [],
+                classifications : []
             }
         },
         mounted(){
@@ -227,6 +301,45 @@
                 });
                 
                 
+            },
+            classificationsModal(row){
+                var self = this;
+                this.category.category_id = row.id;
+                this.category.category_name = row.category_name;
+                this.category.status = row.status;
+                this.classifications = [];
+                axios.get('classification/get/' + row.id).then(res => {
+                    self.classifications = res.data;
+                    
+                }).catch(err => {
+
+                });
+                $("#classification_modal").modal("show");
+            },
+            addClassification(){
+                this.classifications.push({
+                    classification : '',
+                    id : '',
+                    deleted_flag : 'N'
+                });
+            },
+            deleteClassification(item,index){
+                if(item.id != ""){
+                    this.classifications[index].deleted_flag = 'Y';
+                }
+                else {
+                    this.classifications.splice(index,1);
+                }
+            },
+            saveClassifications(){
+                axios.post('classification/save', {
+                    classifications : this.classifications,
+                    category_id : this.category.category_id
+                }).then(res => {
+                    toastr.success('Classifications has been updated.', 'Success!');
+                }).catch(err => {
+
+                });
             }
         }
     })

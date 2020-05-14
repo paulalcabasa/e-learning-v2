@@ -27,6 +27,7 @@ class CategoryAdmin extends Model
                 WHERE 1 = 1
                     AND system_id = 47
                     AND utt.user_type = 'Administrator'
+            
                 ORDER BY pit.last_name, pit.first_name"; 
         $query = DB::connection('ipc_central')->select($sql);
         return $query;
