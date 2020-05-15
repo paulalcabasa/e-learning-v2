@@ -18,28 +18,30 @@ class TraineeController extends Controller
 	{
 		$query = DB::select(
 			'SELECT
-			ts.trainee_id, 
-			ts.fname, 
-			ts.mname, 
-			ts.lname, 
-			ts.email,
-			ts.created_at,
-			d.dealer_name, 
-			d.branch,
-			u.is_approved,
-
-			CONCAT(trs.lname,", ",trs.fname," ",COALESCE(trs.mname, "")) as trainor
+				ts.trainee_id, 
+				ts.fname, 
+				ts.mname, 
+				ts.lname, 
+				ts.email,
+				ts.created_at,
+				d.dealer_name, 
+				d.branch,
+				u.is_approved,
+				cc.classification,
+				CONCAT(trs.lname,", ",trs.fname," ",COALESCE(trs.mname, "")) as trainor
 
 			FROM trainees ts
-			LEFT JOIN trainors trs
-			ON trs.trainor_id = ts.trainor_id
-			LEFT JOIN dealers d
-			ON d.dealer_id = trs.dealer_id
-			LEFT JOIN users u
-			ON u.app_user_id = CONCAT("trainee_",ts.trainee_id)
+				LEFT JOIN trainors trs
+					ON trs.trainor_id = ts.trainor_id
+				LEFT JOIN dealers d
+					ON d.dealer_id = trs.dealer_id
+				LEFT JOIN users u
+					ON u.app_user_id = CONCAT("trainee_",ts.trainee_id)
+				LEFT JOIN category_classifications cc
+					ON cc.id = ts.classification_id
 			ORDER BY 
-			u.is_approved ASC,
-			ts.created_at ASC'
+				u.is_approved ASC,
+				ts.created_at ASC'
 		);
 
 		return response()->json(['trainees' => $query]);
@@ -76,6 +78,7 @@ class TraineeController extends Controller
 			$trainee->mname     = $request->mname;
 			$trainee->lname     = $request->lname;
 			$trainee->email     = $request->email;
+			$trainee->classification_id     = $request->classification_id;
 			$trainee->save();
 
 			if ($trainee) {
@@ -138,6 +141,7 @@ class TraineeController extends Controller
 			$trainee->fname = $request->fname;
 			$trainee->mname = $request->mname;
 			$trainee->lname = $request->lname;
+			$trainee->classification_id = $request->classification_id;
 	
 			if ($trainee->email == $request->email) {}
 			else {

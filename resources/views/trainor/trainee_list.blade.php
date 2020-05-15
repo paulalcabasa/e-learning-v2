@@ -70,6 +70,7 @@
                                     <template slot="items" slot-scope="props">
                                         <tr>
                                             <td>@{{ props.item.trainee_id }}</td>
+                                            <td>@{{ props.item.classification }}</td>
                                             <td>
                                                 @{{ props.item.lname }}, @{{ props.item.fname }} @{{ props.item.mname }}
                                             </td>
@@ -177,6 +178,50 @@
                                     :rules="[rules.required, rules.email]"
                                     ></v-text-field>
                                 </v-flex>
+                                <v-flex xs12>
+                                 
+                                    <v-select
+                                        v-model="trainee.classification_id"
+                                        :items="classifications"
+                                        box
+                                        chips
+                                        color="blue-grey lighten-2"
+                                        label="Classification"
+                                        item-text="name"
+                                        item-value="id"
+                                        required
+                                        :rules="[rules.required]"
+                                        :error-messages="errors.classification"
+                                    >
+                                        <!-- Template for render selected data -->
+                                        <template
+                                        slot="selection"
+                                        slot-scope="data"
+                                        >
+                                        
+                                            @{{ data.item.name }}
+                                      
+                                        </template>
+                                        <!-- Template for render data when the select is expanded -->
+                                        <template
+                                        slot="item"
+                                        slot-scope="data"
+                                        >
+                                        <!-- Divider and Header-->
+                                        <template v-if="typeof data.item !== 'object'">
+                                            <v-list-tile-content v-text="data.item"/>
+                                        </template>
+                                        <!-- Normal item -->
+                                        <template v-else>
+                                            <v-list-tile-content>
+                                            <v-list-tile-title v-html="data.item.name"/>
+                                            <v-list-tile-sub-title v-html="data.item.group"/>
+                                            </v-list-tile-content>
+                                        </template>
+                                        </template>
+                                    </v-select>
+
+                                </v-flex>
                                 <v-flex xs12 v-if="!trainee.trainee_id">
                                     {{-- <v-alert
                                         :value="true"
@@ -266,8 +311,11 @@
                 dialog: false,
                 loading: true,
                 search: '',
+                peopleSelected:[],
+                classifications: [],
 				headers: [
 					{ text: 'ID#', value: 'trainee_id' },
+					{ text: 'Classification', value: 'classification' },
 					{ text: 'Trainee', value: 'trainee' },
 					{ text: 'Email', value: 'email' },
 					{ text: 'Trainor', value: 'trainor' },
@@ -299,6 +347,7 @@
         },
         created() {
             this.fetchTrainees();
+            this.loadClassifications();
             this.trainee_tab = 'red';
         },
         methods: {
@@ -487,6 +536,14 @@
                         this.consentPrivacyStatus = true
                     }
                 }
+            },
+
+            loadClassifications(){
+                axios.get(`classifications/get/${TRAINOR_ID}`).then(res => {
+                    this.classifications = res.data;
+                }).catch(err => {
+                    alert("Error : " + err);
+                });
             }
         }
     })

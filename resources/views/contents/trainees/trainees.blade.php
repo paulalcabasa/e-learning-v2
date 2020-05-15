@@ -28,6 +28,7 @@
 					<thead>
 						<tr>
 							<th class="text-center" width="25px">#</th>
+							<th class="text-center">Classification</th>
 							<th class="text-center">Trainee</th>
 							<th class="text-center">Email</th>
 							<th class="text-center">Created by Trainor</th>
@@ -56,6 +57,7 @@
 									</ul>
 								</div>
 							</td>
+							<td class="text-center">@{{ item.classification }}</td>
 							<td class="text-center">@{{ `${item.lname}, ${item.fname} ${item.mname == null ? '' : item.mname}` }}</td>
 							<td class="text-center text-primary">@{{ item.email }}</td>
 							<td class="text-center">@{{ item.trainor }}</td>
@@ -172,6 +174,7 @@
 				return axios.get(`${this.base_url}/admin/trainees/get`)
 					.then(({data}) => {
 						this.items = data.trainees;
+						console.log(data.trainees);
 						$('#update_status_modal').modal('hide');
 						swal('Alright!', 'Operation Succeeded', 'success', {timer:4000,button:false});
 					})

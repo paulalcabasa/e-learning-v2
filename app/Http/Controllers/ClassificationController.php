@@ -43,4 +43,26 @@ class ClassificationController extends Controller
 
         return $data;
     }
+
+    public function getByTrainor(Request $request){
+        $classification = new Classification;
+        $classifications = $classification->getByTrainor($request->trainor_id);
+        $grouped = collect($classifications)->groupBy('category_name');
+        $data = [];
+        foreach($grouped as $category => $classif){
+            array_push($data,[
+                'header' => $category
+            ]);
+            foreach($classif as $row){
+                array_push($data,[
+                    'name' => $row->classification,
+                    'group' => $row->category_name,
+                    'id' => $row->classification_id
+                ]);
+            }
+        }
+        return $data;
+    }
+
+  
 }

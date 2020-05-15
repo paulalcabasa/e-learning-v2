@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {        //--> Master middleware 
 		Route::get('/trainor/category', 'CategoryController@trainorCategories')->name('trainor');
 		Route::get('/trainor/modules/{category_id}', 'TrainorController@modules');
 		Route::get('/category/get', 'CategoryController@index');
+		Route::get('/trainor/classifications/get/{trainor_id}', 'ClassificationController@getByTrainor');
 
 		/** PDF */
 		// Route::view('download-consent-form', 'PDFController@download');
