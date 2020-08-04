@@ -55,9 +55,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://ecommerce4/e-learning'),
-    'hostname' => env('APP_HOSTNAME', 'http://localhost'),
-    'e5_hostname' => env('APP_E5_HOSTNAME', 'http://localhost'),
+    'url' => env('APP_URL', 'https://ecommerce4/e-learning'),
+    'hostname' => env('APP_HOSTNAME', 'https://localhost'),
+    'e5_hostname' => env('APP_E5_HOSTNAME', 'https://localhost'),
 
     /*
     |--------------------------------------------------------------------------
