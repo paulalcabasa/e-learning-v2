@@ -110,7 +110,7 @@
                                 <v-card-title primary-title>
                                     <div>
                                         <h3 class="headline font-weight-medium mb-0">
-                                            @{{ data }}
+                                            @{{ data.split('.')[0] }}
                                         </h3>
                                         <div>
                                             <video width="320" height="240" controls controlsList="nodownload">
