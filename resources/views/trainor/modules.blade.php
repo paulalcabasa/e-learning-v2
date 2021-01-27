@@ -13,7 +13,7 @@
 
 @section('content')
 <v-container>
-    <v-layout>
+    <v-layout class="mb-2">
         <v-flex md12 sm12>
             <v-card class="elevation-0" id="__module_image_container">
                 <v-container class="pb-0" fluid>
@@ -85,6 +85,60 @@
                         </v-flex>
                     </v-layout>
                 </v-container>
+            </v-card>  
+        </v-flex>
+    </v-layout>    
+</v-container>
+<v-container>
+    <v-layout>
+        <v-flex md12 sm12>
+            <v-card class="elevation-0">
+                <v-container class="pb-0" fluid>
+                    <v-layout>
+                        <v-flex xs12 align-end flexbox>
+                            <span class="headline font-weight-regular">
+                                Media
+                            </span>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
+
+                <v-container fluid grid-list-lg>
+                    <v-layout row wrap>
+                        <v-flex xs12 sm6 md4 v-for="(data, index) in files" :key="data.index">
+                            <v-card color="grey lighten-5" hover style="min-height: 100%; max-height: 100%;">
+                                <v-card-title primary-title>
+                                    <div>
+                                        <h3 class="headline font-weight-medium mb-0">
+                                            @{{ data }}
+                                        </h3>
+                                        <div>
+                                            <video width="320" height="240" controls controlsList="nodownload">
+                                                <source :src="path + data" type="video/mp4">
+                                                <source :src="path + data" type="video/wmv">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                            
+                                        </div>
+                                    </div>
+                                </v-card-title>
+
+                                <!-- <v-card-actions>
+                                    <v-spacer></v-spacer>
+
+                                    <div v-if="data.module_details.length > 0">
+                                        <v-menu :close-on-content-click="false" bottom origin="center center" transition="scale-transition" small>
+                                            <v-btn slot="activator" dark flat color="green">
+                                                Watch
+                                            </v-btn>
+                                        </v-menu>
+                                    </div>
+                                  
+                                </v-card-actions> -->
+                            </v-card>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
             </v-card>
         </v-flex>
     </v-layout>
@@ -100,7 +154,9 @@
             return {
                 trainor_modules: {!! json_encode($trainor_modules) !!},
                 modules: [],
-                category : {!! json_encode($category) !!}
+                category : {!! json_encode($category) !!},
+                files : {!! json_encode($files) !!},
+                path : {!! json_encode($path) !!},
             }
         },
         created() {

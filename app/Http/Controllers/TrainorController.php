@@ -138,9 +138,13 @@ class TrainorController extends Controller
     public function modules(Request $request){
         $category_id = $request->category_id;
         $trainor_id =  str_replace("trainor_", "", Auth::user()->app_user_id);
-   
+        
         $category = Category::findOrFail($category_id);
-       
+       // dd($category->category_name);
+        $dir = 'C:\\wamp64\e-learning\\public\\storage\\ftp-media\\' . strtolower($category->category_name);
+        $path    = 'C:\\wamp64\www\\e-learning\\public\\storage\\ftp-media\\' . strtolower($category->category_name);
+        $files = array_diff(scandir($path), array('.', '..'));
+        
         $trainor = Trainor::findOrFail($trainor_id);
         $trainorCategory = new TrainorCategory;
 
@@ -166,7 +170,9 @@ class TrainorController extends Controller
         $data = [
             'trainor_modules' => $modules->toArray(),
             'category' => $category,
-            'category_id' => $category_id
+            'category_id' => $category_id,
+            'files' => $files,
+            'path' => url('/') . '/public/storage/ftp-media/' . strtolower($category->category_name) . '/'
         ];
         return view('trainor.modules',$data);
     }
