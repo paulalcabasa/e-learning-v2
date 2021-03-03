@@ -12,7 +12,10 @@
 @endpush
 
 @section('content')
+
+
 <v-container>
+		
 	<v-layout row wrap>
 		<v-flex xs12 sm12 md12>
 			<v-toolbar color="grey darken-2" dark>
@@ -28,7 +31,7 @@
 					fluid
 					grid-list-md>
 
-					<v-layout row wrap>
+					<v-layout>
 						<v-flex xs12 sm8 md9 lg10>
 							<!-- Exam Content -->
 							<v-card v-if="exam_container" color="" class="mt-2 elevation-2" style="min-height: 390px;">
@@ -40,6 +43,66 @@
 										<span style="font-size: 19px;">
 											@{{ question.question }}
 										</span>
+										<br/>
+
+										<v-container fluid v-show="media.length > 0">
+											<v-layout justify-space-around>
+												<v-flex xs3 v-if="media.length > 1">
+													<v-layout column >
+													<div class="subheading">@{{ media[0].name }}</div>
+													<v-img v-if="media[0].file_type == 'image'" :src="media[0].url" width="300"></v-img>
+													<video v-if="media[0].file_type == 'video'" width="320" height="240" controls controlsList="nodownload">
+														<source :src="media[0].url" type="video/mp4">
+														Your browser does not support the video tag.
+													</video>
+												</v-flex>
+												<v-flex xs3 v-if="media.length > 2">
+													<v-layout column >
+													<div class="subheading">@{{ media[1].name }}</div>
+													<v-img v-if="media[1].file_type == 'image'" :src="media[1].url" width="300"></v-img>
+													<video v-if="media[1].file_type == 'video'" width="320" height="300" controls controlsList="nodownload">
+														<source :src="media[1].url" type="video/mp4">
+														Your browser does not support the video tag.
+													</video>
+												</v-flex>
+											</v-layout>
+
+											<v-layout justify-space-around v-if="media.length > 3">
+												<v-flex xs3 v-if="media.length > 3">
+													<v-layout column >
+													<div class="subheading">@{{ media[2].name }}</div>
+													<v-img v-if="media[2].file_type == 'image'" :src="media[2].url" width="300"></v-img>
+													<video v-if="media[2].file_type == 'video'" width="320" height="300" controls controlsList="nodownload">
+														<source :src="media[2].url" type="video/mp4">
+														Your browser does not support the video tag.
+													</video>
+												</v-flex>
+												<v-flex xs3 v-if="media.length > 4">
+													<v-layout column >
+													<div class="subheading">@{{ media[3].name }}</div>
+													<v-img v-if="media[3].file_type == 'image'" :src="media[3].url" width="300"></v-img>
+													<video v-if="media[3].file_type == 'video'" width="320" height="300" controls controlsList="nodownload">
+														<source :src="media[3].url" type="video/mp4">
+														Your browser does not support the video tag.
+													</video>
+												</v-flex>
+											</v-layout>
+											<v-layout justify-space-around v-if="media.length > 5">
+												<v-flex xs3 v-if="media.length > 5">
+													<v-layout column >
+													<div class="subheading">@{{ media[4].name }}</div>
+													<v-img v-if="media[4].file_type == 'image'" :src="media[4].url" width="300"></v-img>
+													<video v-if="media[4].file_type == 'video'" width="320" height="300" controls controlsList="nodownload">
+														<source :src="media[4].url" type="video/mp4">
+														Your browser does not support the video tag.
+													</video>
+												</v-flex>
+												
+											</v-layout>
+										
+										
+										</v-container>
+									
 										<div>
 											<v-radio-group
 												v-on:change="getChoiceAnswered"
@@ -142,6 +205,7 @@
 		el: '#app',
 		data() {
 			return {
+				base_url : '',
 				exam_container: true,
 				choiceHasChanged: false,
 				page: 1,
@@ -155,7 +219,8 @@
 					trainee_question_id: 0,
 					choice_id: 0
 				},
-				stateCheck: ''
+				stateCheck: '',
+				media : []
 			}
 		},
 		computed: {
@@ -190,6 +255,7 @@
 		},
 		mounted() {
 			// this.startTime();
+			this.base_url = base_url;
 			this.startWatchingTimer();
 			this.checkReloadDuringExam(this.app_onExam);
 		},
@@ -232,6 +298,7 @@
 					this.question = data.questions;
 					this.choices = data.choices;
 					this.choiceHasChanged = false;
+					this.media = this.getMedia(this.question.question, this.exam_header.module.toLowerCase().trim());
 				})
 				.catch((err) => {
 					console.log(err.response);
@@ -477,6 +544,38 @@
 			checkInternetConnection: function() {
 				return this.app_hasConnection;
 			},
+
+			// extract media
+
+			getMedia(string, exam_module){
+				// var exam_module = exam_header.module;
+				// console.log(exam_module);
+				var self = this;
+				var mediaUrls = [];
+				var startIndex = string.indexOf('See media: '); // 11 is the whole word
+				if(startIndex !== -1){
+					startIndex+= 11;
+					var media = string.substr(startIndex, string.length).split(';');
+					for(var i = 0; i < media.length; i++){
+						let fileExtension = media[i].split('.').pop();
+						let fileType = '';
+						if(fileExtension == 'jpg' || fileExtension == 'png'){
+							fileType = 'image';
+						}
+						else if(fileExtension == 'mp4'){
+							fileType = 'video';
+						}
+						let url = self.base_url + '/public/storage/ftp-media/' +  exam_module + '/' + media[i];
+						mediaUrls.push({
+							url : url,
+							name : media[i],
+							file_type : fileType
+						});
+					}
+				}
+				return mediaUrls;
+			},
+
 		}
 	});
 </script>
