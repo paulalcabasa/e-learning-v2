@@ -9,6 +9,8 @@ Route::get('admin/login/{employee_id}/{employee_no}/{full_name}/{section}', 'Aut
 Route::get('/', 'RedirectLoginController@login');
 Route::post('/check_logging', 'ThirdPartyAuthController@check_logging');
 
+Route::post('export_exam_result', 'ExamResultController@export_exam_result')->name('export_exam_result');
+Route::get('test', 'ExamResultController@test');
 Route::middleware(['auth'])->group(function () {        //--> Master middleware for CLIENT'S AUTH:
 
 	Route::middleware(['trainor'])->group(function () { //--> For TRAINOR'S MIDDLEWARE
@@ -272,6 +274,7 @@ Route::middleware(['check_session'])->group(function () { //--> For Administrato
 	
 	Route::post('/admin/classification/save', 'ClassificationController@store');
 	Route::get('/admin/classification/get/{category_id}', 'ClassificationController@show');
+
 });
 
 Route::get('/flush_session', 'SessionSampleController@flush_session');

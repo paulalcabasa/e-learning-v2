@@ -81,8 +81,8 @@
 						<v-layout row wrap justify-center>
 							<div style="margin-top: 200px;">
 								<h3 class="red--text font-weight-medium">
-									<v-icon color="red">fas fa-sad-tear</v-icon> 
-									Sorry, you don't have an examination for today.
+									<!-- <v-icon color="red">fas fa-sad-tear</v-icon>  -->
+									@{{ message }}
 								</h3>
 							</div>
 						</v-layout>
@@ -165,7 +165,8 @@
 				instructionDialog: false,
 				exams: [],
 				exam_detail_id: 0,
-				has_noConnection: false
+				has_noConnection: false,
+				message : 'Please wait while we load your exam'
 			}
 		},
 		watch: {
@@ -180,11 +181,16 @@
 		},
 		methods: {
 			getExamList: function(trainee_id) {
+				var self = this;
 				axios.get(`${base_url}/trainee/list_of_exams/get/${trainee_id}`)
 				.then(({data}) => {
 					this.exams = data;
+					if(data.length == 0){
+						self.message = "You have no scheduled exam for today.";
+					}
 				})
 				.catch((err) => {
+					alert("Failed loading the exam, please refresh the page.");
 					console.log(err.response);
 				});
 			},

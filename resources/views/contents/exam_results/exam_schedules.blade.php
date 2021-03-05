@@ -164,7 +164,7 @@
 			return {
 				summary_dialog: false,
 				loading: true,
-                search: '',
+                search: null,
 				headers: [
 					{ text: 'Category', value: 'category_name' },
 					{ text: 'Module', value: 'module' },
@@ -198,6 +198,7 @@
 				axios.get(`${base_url}/admin/results/exam_schedules/get`)
 				.then(({data}) => {
                     this.exam_schedules = data;
+					
 					setTimeout(() => {
 						this.loading = false
 					});

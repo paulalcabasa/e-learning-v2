@@ -8,10 +8,20 @@
 <div v-cloak>
 	<section class="content-header">
         <a href="{{ url('/admin/results/exam_schedules/' . Request::segment(4) . '/dealers/') }}" 
-        class="btn btn-sm back-button pull-right">
+        class="btn btn-sm back-button pull-right ml-2">
             <i class="fas fa-chevron-left mr-1"></i>
             BACK
         </a>
+        <a href="#"
+            @click="exportExamResult()" 
+            class="btn btn-sm btn-success pull-right">
+            <i class="fas fa-file-excel mr-1"></i>
+            EXCEL
+        </a>
+        <form id="formResult" action="{{ route('reports.export_exam_result') }}" method="POST" accept-charset="UTF-8">
+            <input type="hidden" name="exam_schedule_id" value="<?php echo Request::segment(4); ?>" />
+            <input type="hidden" name="dealer_id" value="<?php echo Request::segment(6); ?>" />
+        </form>
         <h1 class="sub-editable">
             Trainees 
         </h1>
@@ -233,6 +243,9 @@
 			this.dealer_details = JSON.parse(app.getItem('dealer_details'))
 		},
 		methods: {
+            exportExamResult: function() {
+                $("#formResult").submit();
+            },
             generatePercentage: function(score, items) {
                 if (!score || !items) return ''
                 score = parseInt(score)

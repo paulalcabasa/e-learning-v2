@@ -8,6 +8,8 @@ use App\Models\Dealer;
 use App\ExamSchedule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Exports\ExamResult;
+use Excel;
 
 class ExamResultController extends Controller
 {
@@ -441,4 +443,16 @@ class ExamResultController extends Controller
 
 		return response()->json($query);
 	}
+
+	public function export_exam_result(Request $request)
+	{
+        $params = [
+            'exam_schedule_id' => $request->exam_schedule_id,
+            'dealer_id' => $request->dealer_id
+        ];
+		
+        return Excel::download(new ExamResult($params), 'exam_result.xlsx');
+    }
+
+	
 }
