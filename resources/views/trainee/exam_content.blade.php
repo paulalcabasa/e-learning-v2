@@ -41,7 +41,7 @@
 											<span slot="badge" style="font-size: 15px;">@{{ question.number }}</span>
 										</v-badge>
 										<span style="font-size: 19px;">
-											@{{ question.question }}
+											@{{ formatQuestion(question.question) }}
 										</span>
 										<br/>
 
@@ -60,7 +60,7 @@
 													<v-layout column >
 													<div class="subheading">@{{ media[1].name }}</div>
 													<v-img v-if="media[1].file_type == 'image'" :src="media[1].url" width="300"></v-img>
-													<video v-if="media[1].file_type == 'video'" width="320" height="300" controls controlsList="nodownload">
+													<video v-if="media[1].file_type == 'video'" width="320" height="240" controls controlsList="nodownload">
 														<source :src="media[1].url" type="video/mp4">
 														Your browser does not support the video tag.
 													</video>
@@ -72,7 +72,7 @@
 													<v-layout column >
 													<div class="subheading">@{{ media[2].name }}</div>
 													<v-img v-if="media[2].file_type == 'image'" :src="media[2].url" width="300"></v-img>
-													<video v-if="media[2].file_type == 'video'" width="320" height="300" controls controlsList="nodownload">
+													<video v-if="media[2].file_type == 'video'" width="320" height="240" controls controlsList="nodownload">
 														<source :src="media[2].url" type="video/mp4">
 														Your browser does not support the video tag.
 													</video>
@@ -81,7 +81,7 @@
 													<v-layout column >
 													<div class="subheading">@{{ media[3].name }}</div>
 													<v-img v-if="media[3].file_type == 'image'" :src="media[3].url" width="300"></v-img>
-													<video v-if="media[3].file_type == 'video'" width="320" height="300" controls controlsList="nodownload">
+													<video v-if="media[3].file_type == 'video'" width="320" height="240" controls controlsList="nodownload">
 														<source :src="media[3].url" type="video/mp4">
 														Your browser does not support the video tag.
 													</video>
@@ -92,7 +92,7 @@
 													<v-layout column >
 													<div class="subheading">@{{ media[4].name }}</div>
 													<v-img v-if="media[4].file_type == 'image'" :src="media[4].url" width="300"></v-img>
-													<video v-if="media[4].file_type == 'video'" width="320" height="300" controls controlsList="nodownload">
+													<video v-if="media[4].file_type == 'video'" width="320" height="240" controls controlsList="nodownload">
 														<source :src="media[4].url" type="video/mp4">
 														Your browser does not support the video tag.
 													</video>
@@ -575,6 +575,14 @@
 				}
 				return mediaUrls;
 			},
+
+			formatQuestion(question){
+				var startIndex = question.indexOf('See media: '); // 11 is the whole word
+				if(startIndex !== -1){
+					return question.substr(0, startIndex)
+				}
+				return question;
+			}
 
 		}
 	});
