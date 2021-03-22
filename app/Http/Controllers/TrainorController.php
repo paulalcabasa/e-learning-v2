@@ -145,7 +145,7 @@ class TrainorController extends Controller
         $dir = 'C:\\wamp64\e-learning\\public\\storage\\ftp-media\\' . strtolower($category->category_name);
         $path    = 'C:\\wamp64\www\\e-learning\\public\\storage\\ftp-media\\' . strtolower($category->category_name);
         if(is_dir($path)){
-            $files = array_diff(scandir($path), array('.', '..'));
+            $files = array_values(array_diff(scandir($path), array('.', '..')));
         }
 
         $trainor = Trainor::findOrFail($trainor_id);

@@ -89,7 +89,7 @@
         </v-flex>
     </v-layout>    
 </v-container>
-<v-container >
+<v-container v-if="files.length > 0">
     <v-layout>
         <v-flex md12 sm12>
             <v-card class="elevation-0">
@@ -97,7 +97,7 @@
                     <v-layout>
                         <v-flex xs12 align-end flexbox>
                             <span class="headline font-weight-regular">
-                                Media
+                                Media : @{{ files.length }}
                             </span>
                         </v-flex>
                     </v-layout>
