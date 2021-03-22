@@ -89,7 +89,7 @@
         </v-flex>
     </v-layout>    
 </v-container>
-<v-container>
+<v-container >
     <v-layout>
         <v-flex md12 sm12>
             <v-card class="elevation-0">
@@ -105,20 +105,24 @@
 
                 <v-container fluid grid-list-lg>
                     <v-layout row wrap>
-                        <v-flex xs12 sm6 md4 v-for="(data, index) in files" :key="data.index">
-                            <v-card color="grey lighten-5" hover style="min-height: 100%; max-height: 100%;">
+                        <v-flex xs12 sm6 md4 v-for="(data, index) in files" :key="data.index" >
+                            <v-card  color="grey lighten-5" hover style="min-height: 100%; max-height: 100%;">
                                 <v-card-title primary-title>
                                     <div>
                                         <h3 class="headline font-weight-medium mb-0">
                                             @{{ data.split('.')[0] }}
                                         </h3>
                                         <div>
-                                            <video width="320" height="240" controls controlsList="nodownload">
+                                            <video  v-if="data.split('.')[1] == 'mp4'" width="320" height="240" controls controlsList="nodownload">
                                                 <source :src="path + data" type="video/mp4">
                                                 <source :src="path + data" type="video/wmv">
                                                 Your browser does not support the video tag.
                                             </video>
                                             
+                                            <v-img v-if="data.split('.')[1] == 'jpg'" :src="path + data" width="300"></v-img>
+
+                             
+
                                         </div>
                                     </div>
                                 </v-card-title>

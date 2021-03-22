@@ -141,10 +141,13 @@ class TrainorController extends Controller
         
         $category = Category::findOrFail($category_id);
        // dd($category->category_name);
+        $files = [];
         $dir = 'C:\\wamp64\e-learning\\public\\storage\\ftp-media\\' . strtolower($category->category_name);
         $path    = 'C:\\wamp64\www\\e-learning\\public\\storage\\ftp-media\\' . strtolower($category->category_name);
-        $files = array_diff(scandir($path), array('.', '..'));
-        
+        if(is_dir($path)){
+            $files = array_diff(scandir($path), array('.', '..'));
+        }
+
         $trainor = Trainor::findOrFail($trainor_id);
         $trainorCategory = new TrainorCategory;
 
@@ -165,8 +168,7 @@ class TrainorController extends Controller
         ])
         ->where('category_id', $category_id)
         ->get(); 
-        
-        
+   
         $data = [
             'trainor_modules' => $modules->toArray(),
             'category' => $category,
