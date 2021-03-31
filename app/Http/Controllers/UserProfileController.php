@@ -148,8 +148,9 @@ class UserProfileController extends Controller
 		// Get user lastname
 		$table = $user_type == 'trainor' ? 'trainors' : 'trainees';
 		$user = DB::table($table)->where($user_type.'_id', $id)->first();
-		$lname = bcrypt(snake_case($user->lname));
-
+		//$lname = bcrypt(snake_case($user->lname));
+		$lname = bcrypt(strtolower($user->lname));
+	
 		// Update
 		$query = User::where('app_user_id', $app_user_id)->update(['password' => $lname]);
 

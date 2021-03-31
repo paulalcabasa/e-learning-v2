@@ -57,7 +57,7 @@ class LoginController extends Controller
                 'password'    => $credentials['password'], 
                 'is_approved' => 1,
             ])) {
-
+           
             // Authentication passed...
             $setUserActive = DB::table('users')->where('app_user_id', Auth::user()->app_user_id)->update(['is_active' => 1]);
             if ($setUserActive) 
