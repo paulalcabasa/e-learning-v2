@@ -25,7 +25,7 @@ class CheckAdminSessionMiddleware
             ])
             ->exists();
 
-        if (!$user_access) return redirect()->away('http://'. $_SERVER['HTTP_HOST'] .'/ipc_central/main_home.php');
+        if (!$user_access) return redirect()->away('http://portal.isuzuphil.com/ipc_central/main_home.php');
         
         return $next($request);
     }
