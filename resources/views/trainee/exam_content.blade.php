@@ -299,6 +299,7 @@
 					this.question = data.questions;
 					this.choices = data.choices;
 					this.choiceHasChanged = false;
+					this.media = [];
 					this.media = this.getMedia(this.question.question, this.exam_header.module.toLowerCase().trim());
 				})
 				.catch((err) => {
