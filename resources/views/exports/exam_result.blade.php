@@ -3,6 +3,7 @@
         <tr>
             <th width="30">Name</th>
             <th width="20">Score</th>
+            <th width="20">Total Items</th>
             <th width="20">Passing Score</th>
             <th width="20">Status</th>
             <th width="20">Start Time</th>
@@ -14,7 +15,8 @@
         @foreach($result as $row)
         <tr>
             <td>{{ $row->trainee_name }}</td>
-            <td>{{ $row->score }} / {{ $row->items }}</td>
+            <td>{{ $row->score }}</td>
+            <td>{{ $row->items  }}</td>
             <td>{{ $row->passing_score }}</td>
             <td>{{ $row->score >= $row->passing_score ? 'passed' : 'failed' }}</td>
             <td>{{ $row->start_time }}</td>
