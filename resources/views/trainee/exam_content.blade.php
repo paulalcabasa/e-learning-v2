@@ -49,8 +49,13 @@
 											<v-layout justify-space-around>
 												<v-flex xs3 v-if="media.length >= 1">
 													<v-layout column >
-													<div class="subheading">@{{ media[0].name }}</div>
-													<v-img v-if="media[0].file_type == 'image'" :src="media[0].url" width="300"></v-img>
+													<div class="subheading" v-if="media[0].file_type == 'image'">
+														<a :href="media[0].url" target="_blank">@{{ media[0].name }}</a>
+													</div>
+													<div class="subheading" v-if="media[0].file_type == 'video'">
+														@{{ media[0].name }}
+													</div>
+													<img v-if="media[0].file_type == 'image'" :src="media[0].url" width="300"/>
 													<video v-if="media[0].file_type == 'video'" :key="media[0].url" width="320" height="240" controls controlsList="nodownload">
 														<source :src="media[0].url" type="video/mp4">
 														Your browser does not support the video tag.
@@ -58,7 +63,12 @@
 												</v-flex>
 												<v-flex xs3 v-if="media.length >= 2">
 													<v-layout column >
-													<div class="subheading">@{{ media[1].name }}</div>
+													<div class="subheading" v-if="media[1].file_type == 'image'">
+														<a :href="media[1].url" target="_blank">@{{ media[1].name }}</a>
+													</div>
+													<div class="subheading" v-if="media[1].file_type == 'video'">
+														@{{ media[1].name }}
+													</div>
 													<v-img v-if="media[1].file_type == 'image'" :src="media[1].url" width="300"></v-img>
 													<video v-if="media[1].file_type == 'video'" :key="media[1].url" width="320" height="240" controls controlsList="nodownload">
 														<source :src="media[1].url" type="video/mp4">
@@ -70,7 +80,12 @@
 											<v-layout justify-space-around v-if="media.length >= 3">
 												<v-flex xs3 v-if="media.length >= 3">
 													<v-layout column >
-													<div class="subheading">@{{ media[2].name }}</div>
+													<div class="subheading" v-if="media[2].file_type == 'image'">
+														<a :href="media[2].url" target="_blank">@{{ media[2].name }}</a>
+													</div>
+													<div class="subheading" v-if="media[2].file_type == 'video'">
+														@{{ media[2].name }}
+													</div>
 													<v-img v-if="media[2].file_type == 'image'" :src="media[2].url" width="300"></v-img>
 													<video v-if="media[2].file_type == 'video'" :key="media[2].url" width="320" height="240" controls controlsList="nodownload">
 														<source :src="media[2].url" type="video/mp4">
@@ -79,7 +94,12 @@
 												</v-flex>
 												<v-flex xs3 v-if="media.length >= 4">
 													<v-layout column >
-													<div class="subheading">@{{ media[3].name }}</div>
+													<div class="subheading" v-if="media[3].file_type == 'image'">
+														<a :href="media[3].url" target="_blank">@{{ media[3].name }}</a>
+													</div>
+													<div class="subheading" v-if="media[3].file_type == 'video'">
+														@{{ media[3].name }}
+													</div>
 													<v-img v-if="media[3].file_type == 'image'" :src="media[3].url" width="300"></v-img>
 													<video v-if="media[3].file_type == 'video'" :key="media[3].url" width="320" height="240" controls controlsList="nodownload">
 														<source :src="media[3].url" type="video/mp4">
@@ -90,7 +110,12 @@
 											<v-layout justify-space-around v-if="media.length >= 5">
 												<v-flex xs3 v-if="media.length >= 5">
 													<v-layout column >
-													<div class="subheading">@{{ media[4].name }}</div>
+													<div class="subheading" v-if="media[4].file_type == 'image'">
+														<a :href="media[4].url" target="_blank">@{{ media[4].name }}</a>
+													</div>
+													<div class="subheading" v-if="media[4].file_type == 'video'">
+														@{{ media[4].name }}
+													</div>
 													<v-img v-if="media[4].file_type == 'image'" :src="media[4].url" width="300"></v-img>
 													<video v-if="media[4].file_type == 'video'" :key="media[4].url" width="320" height="240" controls controlsList="nodownload">
 														<source :src="media[4].url" type="video/mp4">
@@ -587,6 +612,10 @@
 					return question.substr(0, startIndex)
 				}
 				return question;
+			},
+
+			viewLargeImage(url) {
+				window.open(url, '_blank');
 			}
 
 		}
