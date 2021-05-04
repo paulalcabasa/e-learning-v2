@@ -50,10 +50,10 @@
 												<v-flex xs3 v-if="media.length >= 1">
 													<v-layout column >
 													<div class="subheading" v-if="media[0].file_type == 'image'">
-														<a :href="media[0].url" target="_blank">@{{ media[0].name }}</a>
+														<a :href="media[0].url" target="_blank">@{{ formatMediaName(media[0].name) }}</a>
 													</div>
 													<div class="subheading" v-if="media[0].file_type == 'video'">
-														@{{ media[0].name }}
+														@{{ formatMediaName(media[0].name) }}
 													</div>
 													<img v-if="media[0].file_type == 'image'" :src="media[0].url" width="300"/>
 													<video v-if="media[0].file_type == 'video'" :key="media[0].url" width="320" height="240" controls controlsList="nodownload">
@@ -64,10 +64,10 @@
 												<v-flex xs3 v-if="media.length >= 2">
 													<v-layout column >
 													<div class="subheading" v-if="media[1].file_type == 'image'">
-														<a :href="media[1].url" target="_blank">@{{ media[1].name }}</a>
+														<a :href="media[1].url" target="_blank">@{{ formatMediaName(media[1].name) }}</a>
 													</div>
 													<div class="subheading" v-if="media[1].file_type == 'video'">
-														@{{ media[1].name }}
+														@{{ formatMediaName(media[1].name) }}
 													</div>
 													<v-img v-if="media[1].file_type == 'image'" :src="media[1].url" width="300"></v-img>
 													<video v-if="media[1].file_type == 'video'" :key="media[1].url" width="320" height="240" controls controlsList="nodownload">
@@ -81,10 +81,10 @@
 												<v-flex xs3 v-if="media.length >= 3">
 													<v-layout column >
 													<div class="subheading" v-if="media[2].file_type == 'image'">
-														<a :href="media[2].url" target="_blank">@{{ media[2].name }}</a>
+														<a :href="media[2].url" target="_blank">@{{ formatMediaName(media[2].name) }}</a>
 													</div>
 													<div class="subheading" v-if="media[2].file_type == 'video'">
-														@{{ media[2].name }}
+														@{{ formatMediaName(media[2].name) }}
 													</div>
 													<v-img v-if="media[2].file_type == 'image'" :src="media[2].url" width="300"></v-img>
 													<video v-if="media[2].file_type == 'video'" :key="media[2].url" width="320" height="240" controls controlsList="nodownload">
@@ -95,10 +95,10 @@
 												<v-flex xs3 v-if="media.length >= 4">
 													<v-layout column >
 													<div class="subheading" v-if="media[3].file_type == 'image'">
-														<a :href="media[3].url" target="_blank">@{{ media[3].name }}</a>
+														<a :href="media[3].url" target="_blank">@{{ formatMediaName(media[3].name) }}</a>
 													</div>
 													<div class="subheading" v-if="media[3].file_type == 'video'">
-														@{{ media[3].name }}
+														@{{ formatMediaName(media[3].name) }}
 													</div>
 													<v-img v-if="media[3].file_type == 'image'" :src="media[3].url" width="300"></v-img>
 													<video v-if="media[3].file_type == 'video'" :key="media[3].url" width="320" height="240" controls controlsList="nodownload">
@@ -111,10 +111,10 @@
 												<v-flex xs3 v-if="media.length >= 5">
 													<v-layout column >
 													<div class="subheading" v-if="media[4].file_type == 'image'">
-														<a :href="media[4].url" target="_blank">@{{ media[4].name }}</a>
+														<a :href="media[4].url" target="_blank">@{{ formatMediaName(media[4].name) }}</a>
 													</div>
 													<div class="subheading" v-if="media[4].file_type == 'video'">
-														@{{ media[4].name }}
+														@{{ formatMediaName(media[4].name) }}
 													</div>
 													<v-img v-if="media[4].file_type == 'image'" :src="media[4].url" width="300"></v-img>
 													<video v-if="media[4].file_type == 'video'" :key="media[4].url" width="320" height="240" controls controlsList="nodownload">
@@ -280,7 +280,7 @@
 			this.getExamContent(EXAM_DETAIL_ID);
 		},
 		mounted() {
-			// this.startTime();
+			this.startTime();
 			this.base_url = base_url;
 			this.startWatchingTimer();
 			this.checkReloadDuringExam(this.app_onExam);
@@ -616,6 +616,13 @@
 
 			viewLargeImage(url) {
 				window.open(url, '_blank');
+			},
+
+			formatMediaName(mediaName) {
+				if(mediaName.length >= 40){
+					return mediaName.substr(0, 40) + '...';
+				}
+				return mediaName;	
 			}
 
 		}
