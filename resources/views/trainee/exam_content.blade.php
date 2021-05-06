@@ -23,7 +23,7 @@
 					@{{ exam_header.module }}
 				</v-toolbar-title>
 				<v-spacer></v-spacer>
-				<div>Remaining Time: <span id="time" class="green--text lighten-2 font-weight-bold title"></span></div>
+				<div>Remaining Time: <span id="time" class="green--text lighten-2 font-weight-bold title">@{{ displayTime }}</span></div>
 			</v-toolbar>
 
 			<v-card>
@@ -41,7 +41,7 @@
 											<span slot="badge" style="font-size: 15px;">@{{ question.number }}</span>
 										</v-badge>
 										<span style="font-size: 19px;">
-											@{{ formatQuestion(question.question) }}
+											@{{ (question.question) }}
 										</span>
 										<br/>
 
@@ -246,7 +246,9 @@
 				},
 				stateCheck: '',
 				media : [],
-				video : ''
+				video : '',
+				mediaLoaded : false,
+				displayTime : 0
 			}
 		},
 		computed: {
@@ -304,7 +306,9 @@
 			getExamContent: function(exam_detail_id) {
 				axios.get(`${base_url}/trainee/exam_content/get/${exam_detail_id}`)
 				.then(({data}) => {
+					console.log("Exam detail id", exam_detail_id);
 					this.exam_header = data;
+				
 					this.items = parseInt(data.items);
 					this.triggerExam(EXAM_DETAIL_ID);
 					this.getQuestion(this.page);
@@ -314,6 +318,7 @@
 				});
 			},
 			getQuestion: function(number) {
+				this.mediaLoaded = false;
 				var params = {
 					exam_schedule_id: this.exam_header.exam_schedule_id,
 					trainee_id: user_id,
@@ -326,6 +331,9 @@
 					this.choiceHasChanged = false;
 					this.media = [];
 					this.media = this.getMedia(this.question.question, this.exam_header.module.toLowerCase().trim());
+				})
+				.then(() => {
+					this.mediaLoaded = true;
 				})
 				.catch((err) => {
 					console.log(err.response);
@@ -361,8 +369,9 @@
 			timer: function(minutes, seconds, display) {
 				var duration = minutes > 0 ? 60 * minutes : 0;  // Convert minutes into seconds
 				var timer = duration + seconds;                 //--> Add remaining Seconds
-
+				var self = this;
 				this.stateCheck = setInterval(() => {
+					console.log("state check");
 					minutes = parseInt(timer / 60, 10)
 					seconds = parseInt(timer % 60, 10);
 
@@ -370,8 +379,9 @@
 					minutes = minutes < 10 ? "0" + minutes : minutes;
 					seconds = seconds < 10 ? "0" + seconds : seconds;
 
-					display.textContent = minutes + ":" + seconds; //--> display into HTML
-
+				//	$("#timer").html(minutes + ":" + seconds); //--> display into HTML
+					// use vuejs to diplsay time
+					self.displayTime = minutes + ": " + seconds;
 					this.backupTime(minutes, seconds); //--> Backup time into localStorage
 
 					if (!this.checkInternetConnection()) {
@@ -395,6 +405,7 @@
 				localStorage.setItem("user_id", user_id);
 				localStorage.setItem("minutes", minutes);
 				localStorage.setItem("seconds", seconds);
+				console.log("backup time");
 			},
 			getRemainingMinutes: function() {
 				if (localStorage.getItem('user_id') != user_id) return null;
@@ -558,7 +569,7 @@
 						minutes: this.getRemainingMinutes(),
 						seconds: this.getRemainingSeconds()
 					}
-
+			
 					axios.post(`${base_url}/trainee/remaining_time/update`, data)
 					.then()
 					.catch((err) => {
@@ -571,7 +582,6 @@
 			checkInternetConnection: function() {
 				return this.app_hasConnection;
 			},
-
 			// extract media
 
 			getMedia(string, exam_module){
@@ -583,7 +593,7 @@
 				if(startIndex !== -1){
 					startIndex+= 11;
 					var media = string.substr(startIndex, string.length).split(';');
-					console.log(media);
+					console.log("Media", media);
 					for(var i = 0; i < media.length; i++){
 						let fileExtension = media[i].split('.').pop();
 						let fileType = '';
