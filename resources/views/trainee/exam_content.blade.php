@@ -41,7 +41,7 @@
 											<span slot="badge" style="font-size: 15px;">@{{ question.number }}</span>
 										</v-badge>
 										<span style="font-size: 19px;">
-											@{{ (question.question) }}
+											@{{ formatQuestion(question.question) }}
 										</span>
 										<br/>
 
