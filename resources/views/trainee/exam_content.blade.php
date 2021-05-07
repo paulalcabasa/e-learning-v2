@@ -280,9 +280,10 @@
 		created() {
 			this.app_onExam = true;
 			this.getExamContent(EXAM_DETAIL_ID);
+		
 		},
 		mounted() {
-			this.startTime();
+		 	
 			this.base_url = base_url;
 			this.startWatchingTimer();
 			this.checkReloadDuringExam(this.app_onExam);
@@ -306,12 +307,22 @@
 			getExamContent: function(exam_detail_id) {
 				axios.get(`${base_url}/trainee/exam_content/get/${exam_detail_id}`)
 				.then(({data}) => {
-					console.log("Exam detail id", exam_detail_id);
 					this.exam_header = data;
-				
+					console.log("get exam content");
+					localStorage.removeItem('user_id');
+					localStorage.removeItem('minutes');
+					localStorage.removeItem('seconds');
+					localStorage.removeItem('exam_schedule_id');
+					localStorage.setItem('user_id', user_id);
+					localStorage.setItem('minutes', data.timer);
+					localStorage.setItem('seconds', 0);
+					localStorage.setItem('exam_schedule_id', data.exam_schedule_id);
+
 					this.items = parseInt(data.items);
 					this.triggerExam(EXAM_DETAIL_ID);
 					this.getQuestion(this.page);
+					this.resetTimer();
+					this.startTime();
 				})
 				.catch((err) => {
 					console.log(err.response);
@@ -331,9 +342,12 @@
 					this.choiceHasChanged = false;
 					this.media = [];
 					this.media = this.getMedia(this.question.question, this.exam_header.module.toLowerCase().trim());
+			
 				})
 				.then(() => {
 					this.mediaLoaded = true;
+				})
+				.then(() => {
 				})
 				.catch((err) => {
 					console.log(err.response);
@@ -407,6 +421,12 @@
 				localStorage.setItem("seconds", seconds);
 				console.log("backup time");
 			},
+			saveTimeLocally: function(){
+				localStorage.setItem("exam_schedule_id", this.exam_header.exam_schedule_id);
+				localStorage.setItem("user_id", user_id);
+				localStorage.setItem("minutes", this.remainingMinutes);
+				localStorage.setItem("seconds", this.remainingSeconds);
+			},
 			getRemainingMinutes: function() {
 				if (localStorage.getItem('user_id') != user_id) return null;
 				return localStorage.getItem('minutes');
@@ -424,24 +444,35 @@
 			startTime: function() {
 				this.didTimerStart = true;
 				this.exam_container = true;
+				
 				setTimeout(() => {
 					if (this.app_hasConnection) {
+					//	console.log("has connection");
 						this.saveRemainingTimeEveryFiveMinutes();
+					
 						// Parameters
 						var minutes;
-						if (this.getRemainingMinutes() <= 0
-							&& this.getRemainingSeconds() <= 0) minutes = this.remainingMinutes; // Reset
-						else minutes = this.getRemainingMinutes();
+						if (this.getRemainingMinutes() <= 0 && this.getRemainingSeconds() <= 0) {
+							minutes = this.remainingMinutes; // Reset
+						}
+						else {
+							minutes = this.getRemainingMinutes();
+						}
 
 						var seconds;
-						if (this.getRemainingMinutes() <= 0
-							&& this.getRemainingSeconds() <= 0) seconds = this.remainingSeconds; // Reset
-						else seconds = new Number(this.getRemainingSeconds());
-
+						if (this.getRemainingMinutes() <= 0 && this.getRemainingSeconds() <= 0) {
+								seconds = this.remainingSeconds; // Reset
+						}
+						else {
+							seconds = new Number(this.getRemainingSeconds());
+						}
 						var display = document.querySelector('#time');
 
-						if (minutes == '00' || minutes > 0
-							&& seconds == '00' || seconds > 0) return this.timer(minutes, seconds, display);
+							if (minutes == '00' || minutes > 0
+							&& seconds == '00' || seconds > 0) {
+								return this.timer(minutes, seconds, display);
+						
+						}
 					}
 				}, 1000);
 			},
