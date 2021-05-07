@@ -58,13 +58,21 @@ class Exam
 				DB::raw('SUM(qd.items) as items'),
 				'es.timer',
 				'es.passing_score',
-				'trainee.trainee_id'
+				'trainee.trainee_id',
+				't_exams.remaining_time',
+				't_exams.seconds'
 			)
 			->leftJoin('trainors as trainor', 'trainor.dealer_id', '=', 'ed.dealer_id')
 			->leftJoin('trainees as trainee', 'trainee.trainor_id', '=', 'trainor.trainor_id')
 			->leftJoin('exam_schedules as es', 'es.exam_schedule_id', '=', 'ed.exam_schedule_id')
 			->leftJoin('modules as m', 'm.module_id', '=', 'es.module_id')
 			->leftJoin('question_details as qd', 'qd.exam_schedule_id', '=', 'es.exam_schedule_id')
+			->leftJoin('trainee_exams as t_exams', function($join) {
+				global $user_id;
+				$join->on('t_exams.exam_schedule_id', '=', 'es.exam_schedule_id');	
+				$join->on('t_exams.trainee_id', '=', 'trainee.trainee_id');	
+			})
+			
 			->where([
 				'ed.exam_detail_id'  => $exam_detail_id,
 				'trainee.trainee_id' => $user_id,
@@ -75,7 +83,9 @@ class Exam
 			->groupBy(
 				'exam_detail_id',
 				'trainee.trainee_id',
-				'qd.exam_schedule_id'
+				'qd.exam_schedule_id',
+				't_exams.remaining_time',
+				't_exams.seconds'
 			)
 			->first();
 

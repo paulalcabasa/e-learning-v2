@@ -248,7 +248,8 @@
 				media : [],
 				video : '',
 				mediaLoaded : false,
-				displayTime : 0
+				displayTime : 0,
+				saveTime : ''
 			}
 		},
 		computed: {
@@ -279,11 +280,13 @@
 		},
 		created() {
 			this.app_onExam = true;
+		},
+		beforeMount(){
+			clearInterval(this.saveTime);
 			this.getExamContent(EXAM_DETAIL_ID);
-		
 		},
 		mounted() {
-		 	
+		 	this.startTime();
 			this.base_url = base_url;
 			this.startWatchingTimer();
 			this.checkReloadDuringExam(this.app_onExam);
@@ -308,22 +311,23 @@
 				axios.get(`${base_url}/trainee/exam_content/get/${exam_detail_id}`)
 				.then(({data}) => {
 					this.exam_header = data;
-					console.log("get exam content");
+					this.items = parseInt(data.items);
+					console.log("exam header", data);
+					this.resetTimer();
 					localStorage.removeItem('user_id');
 					localStorage.removeItem('minutes');
 					localStorage.removeItem('seconds');
 					localStorage.removeItem('exam_schedule_id');
 					localStorage.setItem('user_id', user_id);
-					localStorage.setItem('minutes', data.timer);
-					localStorage.setItem('seconds', 0);
+					localStorage.setItem('minutes', data.remaining_time);
+					localStorage.setItem('seconds', data.seconds);
 					localStorage.setItem('exam_schedule_id', data.exam_schedule_id);
-
-					this.items = parseInt(data.items);
+					console.log(data);
 					this.triggerExam(EXAM_DETAIL_ID);
 					this.getQuestion(this.page);
-					this.resetTimer();
 					this.startTime();
 				})
+			
 				.catch((err) => {
 					console.log(err.response);
 				});
@@ -594,7 +598,7 @@
 			},
 
 			saveRemainingTimeEveryFiveMinutes: function() {
-				setInterval(() => {
+				this.saveTime = setInterval(() => {
 					var data = {
 						exam_schedule_id: localStorage.getItem('exam_schedule_id'),
 						minutes: this.getRemainingMinutes(),
