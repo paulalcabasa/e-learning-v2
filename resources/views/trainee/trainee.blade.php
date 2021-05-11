@@ -111,19 +111,19 @@
 				<v-list>
 					<template>
 						<v-subheader class="ml-4">
-							1. Please surrender your mobile phone to your instructor before taking the examination.
+							1. Please surrender your mobile phone to your instructor/coordinator before taking the examination.
 						</v-subheader>
 						<v-divider></v-divider>
 						<v-subheader class="ml-4">
-							2. Read carefully and completely the questions of the exam before answering.
+							2. Read carefully the the questions before answering.
 						</v-subheader>
 						<v-divider></v-divider>
 						<v-subheader class="ml-4">
-							3. Kindly ask your instructor for any clarifications and concerns regarding your exam.
+							3. Kindly ask your instructor/proctor for any clarifications and concerns regarding your exam.
 						</v-subheader>
 						<v-divider></v-divider>
 						<v-subheader class="ml-4">
-							4. Once finished, kindly inform your instructor and leave the room immediately.
+							4. Please verify your answer per question before submitting and kindly inform your instructor/proctor if done, for final instruction.
 						</v-subheader>
 					</template>
 				</v-list>
